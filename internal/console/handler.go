@@ -2,8 +2,8 @@ package console
 
 import (
 	"errors"
-	"strings"
 	. "github.com/Local-Micro/Uni-Bot-Framework/internal/console/commands"
+	"strings"
 )
 
 type Handler struct {
@@ -22,7 +22,7 @@ func NewHandler() (*Handler, error) {
 	}, nil
 }
 
-func (h *Handler)Start(text string) error {
+func (h *Handler) Start(text string) error {
 	args := strings.Fields(text)
 	if value, ok := h.commands[args[0]]; ok {
 		err := value.Start(args)

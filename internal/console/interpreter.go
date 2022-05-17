@@ -2,13 +2,12 @@ package console
 
 import (
 	"fmt"
-	"strings"
 )
 
 type Interpreter struct {
 	handler *Handler
-	prompt string  // 提示符
-	text string  // 输入内容
+	prompt  string // 提示符
+	text    string // 输入内容
 }
 
 func NewInterpreter() (*Interpreter, error) {
@@ -18,18 +17,22 @@ func NewInterpreter() (*Interpreter, error) {
 	}
 	return &Interpreter{
 		handler: handler,
-		prompt: "bot > ",
-		text: "",
+		prompt:  "bot > ",
+		text:    "",
 	}, nil
 }
 
-func (i *Interpreter)Start() error {
+func (i *Interpreter) Start() error {
 	for {
 		fmt.Print(i.prompt)
-		fmt.Scanln(&i.text)
-		if len(strings.Fields(i.text)) == 0 {
-			i.text = ""
-			continue
+		_, err := fmt.Scanln(&i.text)
+		if err != nil {
+			// 空行
+			if err.Error() == "unexpected newline" {
+				continue
+			} else {
+				return err
+			}
 		} else {
 			err := i.handler.Start(i.text)
 			if err != nil {
