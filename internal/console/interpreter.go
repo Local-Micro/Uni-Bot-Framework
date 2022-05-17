@@ -5,9 +5,9 @@ import (
 )
 
 type Interpreter struct {
-	handler *Handler
-	prompt  string // 提示符
-	text    string // 输入内容
+	handler *Handler // 处理器
+	prompt  string   // 提示符
+	text    string   // 输入内容
 }
 
 func NewInterpreter() (*Interpreter, error) {
