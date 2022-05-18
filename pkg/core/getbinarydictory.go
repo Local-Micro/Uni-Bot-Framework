@@ -5,21 +5,22 @@ import (
 	_path "path"
 	"path/filepath"
 	"runtime"
+	"strings"
 )
 
 func GetBinaryDictory() (string, error) {
 	tmp, err := getTmpDir()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	path, err := byExecutable()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	if strings.Contains(path, tmp) {
 		path, err = byCaller()
 		if err != nil {
-			return nil, err
+			return "", err
 		}
 	}
 	return path, nil
@@ -37,11 +38,11 @@ func byCaller() (string, error) {
 func byExecutable() (string, error) {
 	path, err := os.Executable()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	path, err = filepath.EvalSymlinks(filepath.Dir(path))
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	return path, nil
 }
